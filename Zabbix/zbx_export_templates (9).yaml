@@ -1,0 +1,721 @@
+zabbix_export:
+  version: '7.2'
+  template_groups:
+    - uuid: 7df96b18c230490a9a0a9e2307226338
+      name: Templates
+  host_groups:
+    - uuid: 05d4fa3375de415da3d094189dfe49dc
+      name: 'Amusement Parks'
+  templates:
+    - uuid: 21c3540d112b44c09671e80d4bac65b8
+      template: 'Amusement Park Wait Times'
+      name: 'Amusement Park Wait Times'
+      templates:
+        - name: 'Wait Time Discovery and Creation'
+      groups:
+        - name: Templates
+      discovery_rules:
+        - uuid: a2f85f73d01541b9abfee380d86768c1
+          name: ALL-PARK-DISCOVERY
+          type: HTTP_AGENT
+          key: all.parks.discovery
+          delay: 24h
+          status: DISABLED
+          host_prototypes:
+            - uuid: 3438f13c851741adbe563465803cce02
+              host: '{#PARKNAME}'
+              name: '{#PARKNAME}'
+              inventory_mode: AUTOMATIC
+              group_links:
+                - group:
+                    name: 'Amusement Parks'
+              templates:
+                - name: 'Wait Time Discovery and Creation'
+              macros:
+                - macro: '{$PID}'
+                  value: '{#PID}'
+              tags:
+                - tag: COUNTRY
+                  value: '{#COUNTRY}'
+                - tag: PARENT
+                  value: ALL
+                - tag: PARK
+                  value: '{#PARKNAME}'
+          url: 'https://queue-times.com/parks.json'
+          lld_macro_paths:
+            - lld_macro: '{#PARKNAME}'
+              path: $.name
+            - lld_macro: '{#PID}'
+              path: $.id
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - '$.[*].parks.*'
+        - uuid: 1eb014c90d1345f3a2e9c979bbd0119d
+          name: CEDAR-FAIR-PARK-DISCOVERY
+          type: HTTP_AGENT
+          key: cedar.parks.discovery
+          delay: 24h
+          status: DISABLED
+          host_prototypes:
+            - uuid: 83df13215ca2497c84e47dec65d7bb28
+              host: '{#PARKNAME}'
+              name: '{#PARKNAME}'
+              inventory_mode: AUTOMATIC
+              group_links:
+                - group:
+                    name: 'Amusement Parks'
+              templates:
+                - name: 'Wait Time Discovery and Creation'
+              macros:
+                - macro: '{$PID}'
+                  value: '{#PID}'
+              tags:
+                - tag: COUNTRY
+                  value: '{#COUNTRY}'
+                - tag: PARENT
+                  value: 'CEDAR FAIR'
+                - tag: PARK
+                  value: '{#PARKNAME}'
+          url: 'https://queue-times.com/parks.json'
+          lld_macro_paths:
+            - lld_macro: '{#CONTINENT}'
+              path: $.continent
+            - lld_macro: '{#COUNTRY}'
+              path: $.country
+            - lld_macro: '{#LAT}'
+              path: $.latitude
+            - lld_macro: '{#LONG}'
+              path: $.longitude
+            - lld_macro: '{#PARKNAME}'
+              path: $.name
+            - lld_macro: '{#PID}'
+              path: $.id
+            - lld_macro: '{#TIMEZONE}'
+              path: $.timezone
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - '$.[?(@.name=="Cedar Fair Entertainment Company")].parks.*'
+        - uuid: e22f879f3a454d4ebbde7dbe8045b1b3
+          name: CHIMELONG-GRP-PARK-DISCOVERY
+          type: HTTP_AGENT
+          key: chimelong.parks.discovery
+          delay: 24h
+          status: DISABLED
+          host_prototypes:
+            - uuid: 58c69f13823645fba5133bda169d033e
+              host: '{#PARKNAME}'
+              name: '{#PARKNAME}'
+              inventory_mode: AUTOMATIC
+              group_links:
+                - group:
+                    name: 'Amusement Parks'
+              templates:
+                - name: 'Wait Time Discovery and Creation'
+              macros:
+                - macro: '{$PID}'
+                  value: '{#PID}'
+              tags:
+                - tag: COUNTRY
+                  value: '{#COUNTRY}'
+                - tag: PARENT
+                  value: 'CHIMELONG GROUP'
+                - tag: PARK
+                  value: '{#PARKNAME}'
+          url: 'https://queue-times.com/parks.json'
+          lld_macro_paths:
+            - lld_macro: '{#CONTINENT}'
+              path: $.continent
+            - lld_macro: '{#COUNTRY}'
+              path: $.country
+            - lld_macro: '{#LAT}'
+              path: $.latitude
+            - lld_macro: '{#LONG}'
+              path: $.longitude
+            - lld_macro: '{#PARKNAME}'
+              path: $.name
+            - lld_macro: '{#PID}'
+              path: $.id
+            - lld_macro: '{#TIMEZONE}'
+              path: $.timezone
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - '$.[?(@.name=="Chimelong Group")].parks.*'
+        - uuid: 291f9b0aa8fa47f7ba94526e41b9125d
+          name: COMPAGNIE-DES-ALPES-PARK-DISCOVERY
+          type: HTTP_AGENT
+          key: compagnie.des.alpes.parks.discovery
+          delay: 24h
+          status: DISABLED
+          host_prototypes:
+            - uuid: 2d6120fdaf7240ccb813616f93a3130a
+              host: '{#PARKNAME}'
+              name: '{#PARKNAME}'
+              group_links:
+                - group:
+                    name: 'Amusement Parks'
+              templates:
+                - name: 'Wait Time Discovery and Creation'
+              macros:
+                - macro: '{$PID}'
+                  value: '{#PID}'
+              tags:
+                - tag: COUNTRY
+                  value: '{#COUNTRY}'
+                - tag: PARENT
+                  value: 'Compagnie des Alpes'
+                - tag: PARK
+                  value: '{#PARKNAME}'
+          url: 'https://queue-times.com/parks.json'
+          lld_macro_paths:
+            - lld_macro: '{#CONTINENT}'
+              path: $.continent
+            - lld_macro: '{#COUNTRY}'
+              path: $.country
+            - lld_macro: '{#LAT}'
+              path: $.latitude
+            - lld_macro: '{#LONG}'
+              path: $.longitude
+            - lld_macro: '{#PARKNAME}'
+              path: $.name
+            - lld_macro: '{#PID}'
+              path: $.id
+            - lld_macro: '{#TIMEZONE}'
+              path: $.timezone
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - '$.[?(@.name=="Compagnie des Alpes")].parks.*'
+        - uuid: 9b011367632d428789d76d0158c0a7c2
+          name: EUROPA-PARK-DISCOVERY
+          type: HTTP_AGENT
+          key: europa.parks.discovery
+          delay: 24h
+          status: DISABLED
+          host_prototypes:
+            - uuid: 49c8688bbb71497fb50e872bedd817ef
+              host: '{#PARKNAME}'
+              name: '{#PARKNAME}'
+              inventory_mode: AUTOMATIC
+              group_links:
+                - group:
+                    name: 'Amusement Parks'
+              templates:
+                - name: 'Wait Time Discovery and Creation'
+              macros:
+                - macro: '{$PID}'
+                  value: '{#PID}'
+              tags:
+                - tag: COUNTRY
+                  value: '{#COUNTRY}'
+                - tag: PARENT
+                  value: EUROPA-PARK
+                - tag: PARK
+                  value: '{#PARKNAME}'
+          url: 'https://queue-times.com/parks.json'
+          lld_macro_paths:
+            - lld_macro: '{#CONTINENT}'
+              path: $.continent
+            - lld_macro: '{#COUNTRY}'
+              path: $.country
+            - lld_macro: '{#LAT}'
+              path: $.latitude
+            - lld_macro: '{#LONG}'
+              path: $.longitude
+            - lld_macro: '{#PARKNAME}'
+              path: $.name
+            - lld_macro: '{#PID}'
+              path: $.id
+            - lld_macro: '{#TIMEZONE}'
+              path: $.timezone
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - '$.[?(@.name=="Europa-Park")].parks.*'
+        - uuid: 994b381ca9f74e3cba3c94e879287bf1
+          name: HERSCHEND-ENT-PARK-DISCOVERY
+          type: HTTP_AGENT
+          key: herschend.parks.discovery
+          delay: 24h
+          status: DISABLED
+          host_prototypes:
+            - uuid: 6b9ae8a8d7ec44d3add5977748e3bb86
+              host: '{#PARKNAME}'
+              name: '{#PARKNAME}'
+              group_links:
+                - group:
+                    name: 'Amusement Parks'
+              templates:
+                - name: 'Wait Time Discovery and Creation'
+              macros:
+                - macro: '{$PID}'
+                  value: '{#PID}'
+              tags:
+                - tag: COUNTRY
+                  value: '{#COUNTRY}'
+                - tag: PARENT
+                  value: 'HERSCHEND FAMILY ENTERTAINMENT'
+                - tag: PARK
+                  value: '{#PARKNAME}'
+          url: 'https://queue-times.com/parks.json'
+          lld_macro_paths:
+            - lld_macro: '{#CONTINENT}'
+              path: $.continent
+            - lld_macro: '{#COUNTRY}'
+              path: $.country
+            - lld_macro: '{#LAT}'
+              path: $.latitude
+            - lld_macro: '{#LONG}'
+              path: $.longitude
+            - lld_macro: '{#PARKNAME}'
+              path: $.name
+            - lld_macro: '{#PID}'
+              path: $.id
+            - lld_macro: '{#TIMEZONE}'
+              path: $.timezone
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - '$.[?(@.name=="Herschend Family Entertainment")].parks.*'
+        - uuid: 073a75498537444f8c7b6b47679a519b
+          name: LOOPING-GRP-PARK-DISCOVERY
+          type: HTTP_AGENT
+          key: looping.parks.discovery
+          delay: 24h
+          status: DISABLED
+          host_prototypes:
+            - uuid: b5450185bdf8478ba10bfb62a7839002
+              host: '{#PARKNAME}'
+              name: '{#PARKNAME}'
+              inventory_mode: AUTOMATIC
+              group_links:
+                - group:
+                    name: 'Amusement Parks'
+              templates:
+                - name: 'Wait Time Discovery and Creation'
+              macros:
+                - macro: '{$PID}'
+                  value: '{#PID}'
+              tags:
+                - tag: COUNTRY
+                  value: '{#COUNTRY}'
+                - tag: PARENT
+                  value: 'LOOPING GROUP'
+                - tag: PARK
+                  value: '{#PARKNAME}'
+          url: 'https://queue-times.com/parks.json'
+          lld_macro_paths:
+            - lld_macro: '{#CONTINENT}'
+              path: $.continent
+            - lld_macro: '{#COUNTRY}'
+              path: $.country
+            - lld_macro: '{#LAT}'
+              path: $.latitude
+            - lld_macro: '{#LONG}'
+              path: $.longitude
+            - lld_macro: '{#PARKNAME}'
+              path: $.name
+            - lld_macro: '{#PID}'
+              path: $.id
+            - lld_macro: '{#TIMEZONE}'
+              path: $.timezone
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - '$.[?(@.name=="Looping Group")].parks.*'
+        - uuid: ab88d6128a534ce59ec98418fb969ed7
+          name: MERLIN-ENT-PARK-DISCOVERY
+          type: HTTP_AGENT
+          key: merlin.parks.discovery
+          delay: 24h
+          status: DISABLED
+          host_prototypes:
+            - uuid: 860dc1d481ad4835aba89d23c2b3c73e
+              host: '{#PARKNAME}'
+              name: '{#PARKNAME}'
+              inventory_mode: AUTOMATIC
+              group_links:
+                - group:
+                    name: 'Amusement Parks'
+              templates:
+                - name: 'Wait Time Discovery and Creation'
+              macros:
+                - macro: '{$PID}'
+                  value: '{#PID}'
+              tags:
+                - tag: COUNTRY
+                  value: '{#COUNTRY}'
+                - tag: PARENT
+                  value: 'MERLIN ENTERTAINMENTS'
+                - tag: PARK
+                  value: '{#PARKNAME}'
+          url: 'https://queue-times.com/parks.json'
+          lld_macro_paths:
+            - lld_macro: '{#CONTINENT}'
+              path: $.continent
+            - lld_macro: '{#COUNTRY}'
+              path: $.country
+            - lld_macro: '{#LAT}'
+              path: $.latitude
+            - lld_macro: '{#LONG}'
+              path: $.longitude
+            - lld_macro: '{#PARKNAME}'
+              path: $.name
+            - lld_macro: '{#PID}'
+              path: $.id
+            - lld_macro: '{#TIMEZONE}'
+              path: $.timezone
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - '$.[?(@.name=="Merlin Entertainments")].parks.*'
+        - uuid: 84ada45a25b4468e9d4a0206e4604758
+          name: OTHER-PARK-DISCOVERY
+          type: HTTP_AGENT
+          key: other.parks.discovery
+          delay: 24h
+          status: DISABLED
+          host_prototypes:
+            - uuid: a966b5a7e1ce4b04913a7d5a5fc4feaa
+              host: '{#PARKNAME}'
+              name: '{#PARKNAME}'
+              inventory_mode: AUTOMATIC
+              group_links:
+                - group:
+                    name: 'Amusement Parks'
+              templates:
+                - name: 'Wait Time Discovery and Creation'
+              macros:
+                - macro: '{$PID}'
+                  value: '{#PID}'
+              tags:
+                - tag: COUNTRY
+                  value: '{#COUNTRY}'
+                - tag: PARENT
+                  value: OTHER
+                - tag: PARK
+                  value: '{#PARKNAME}'
+          url: 'https://queue-times.com/parks.json'
+          lld_macro_paths:
+            - lld_macro: '{#CONTINENT}'
+              path: $.continent
+            - lld_macro: '{#COUNTRY}'
+              path: $.country
+            - lld_macro: '{#LAT}'
+              path: $.latitude
+            - lld_macro: '{#LONG}'
+              path: $.longitude
+            - lld_macro: '{#PARKNAME}'
+              path: $.name
+            - lld_macro: '{#PID}'
+              path: $.id
+            - lld_macro: '{#TIMEZONE}'
+              path: $.timezone
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - '$.[?(@.name=="Other")].parks.*'
+        - uuid: 647757d855974d1eaa9524b9e2e384b4
+          name: DISNEY-PARK-DISCOVERY
+          type: HTTP_AGENT
+          key: parks.discovery
+          delay: 24h
+          host_prototypes:
+            - uuid: 4ef1da00c823458cb95adb0bd5a3a487
+              host: '{#PARKNAME}'
+              name: '{#PARKNAME}'
+              group_links:
+                - group:
+                    name: 'Amusement Parks'
+              templates:
+                - name: 'Wait Time Discovery and Creation'
+              macros:
+                - macro: '{$PID}'
+                  value: '{#PID}'
+              tags:
+                - tag: COUNTRY
+                  value: '{#COUNTRY}'
+                - tag: PARENT
+                  value: DISNEY
+                - tag: PARK
+                  value: '{#PARKNAME}'
+          url: 'https://queue-times.com/parks.json'
+          lld_macro_paths:
+            - lld_macro: '{#COUNTRY}'
+              path: $.country
+            - lld_macro: '{#PARKNAME}'
+              path: $.name
+            - lld_macro: '{#PID}'
+              path: $.id
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - '$.[?(@.name=="Walt Disney Attractions")].parks.*'
+        - uuid: ae6be2a2124146399bda7fb3354afe44
+          name: PORTADVENTURA-PARK-DISCOVERY
+          type: HTTP_AGENT
+          key: portadventura.parks.discovery
+          delay: 24h
+          status: DISABLED
+          host_prototypes:
+            - uuid: 61891c0cb27a4504b62b301962f8a785
+              host: '{#PARKNAME}'
+              name: '{#PARKNAME}'
+              inventory_mode: AUTOMATIC
+              group_links:
+                - group:
+                    name: 'Amusement Parks'
+              templates:
+                - name: 'Wait Time Discovery and Creation'
+              macros:
+                - macro: '{$PID}'
+                  value: '{#PID}'
+              tags:
+                - tag: COUNTRY
+                  value: '{#COUNTRY}'
+                - tag: PARENT
+                  value: 'PORTADVENTURA WORLD'
+                - tag: PARK
+                  value: '{#PARKNAME}'
+          url: 'https://queue-times.com/parks.json'
+          lld_macro_paths:
+            - lld_macro: '{#CONTINENT}'
+              path: $.continent
+            - lld_macro: '{#COUNTRY}'
+              path: $.country
+            - lld_macro: '{#LAT}'
+              path: $.latitude
+            - lld_macro: '{#LONG}'
+              path: $.longitude
+            - lld_macro: '{#PARKNAME}'
+              path: $.name
+            - lld_macro: '{#PID}'
+              path: $.id
+            - lld_macro: '{#TIMEZONE}'
+              path: $.timezone
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - '$.[?(@.name=="PortAventura World")].parks.*'
+        - uuid: 99acb9afcc2e4cbc8fe66f155bc8776f
+          name: SAMSUNG-CT-PARK-DISCOVERY
+          type: HTTP_AGENT
+          key: samsung.parks.discovery
+          delay: 24h
+          status: DISABLED
+          host_prototypes:
+            - uuid: 1879ddbf569a47f3a2daa16f47b5daf0
+              host: '{#PARKNAME}'
+              name: '{#PARKNAME}'
+              inventory_mode: AUTOMATIC
+              group_links:
+                - group:
+                    name: 'Amusement Parks'
+              templates:
+                - name: 'Wait Time Discovery and Creation'
+              macros:
+                - macro: '{$PID}'
+                  value: '{#PID}'
+              tags:
+                - tag: COUNTRY
+                  value: '{#COUNTRY}'
+                - tag: PARENT
+                  value: 'SAMSUNG CT CORP'
+                - tag: PARK
+                  value: '{#PARKNAME}'
+          url: 'https://queue-times.com/parks.json'
+          lld_macro_paths:
+            - lld_macro: '{#CONTINENT}'
+              path: $.continent
+            - lld_macro: '{#COUNTRY}'
+              path: $.country
+            - lld_macro: '{#LAT}'
+              path: $.latitude
+            - lld_macro: '{#LONG}'
+              path: $.longitude
+            - lld_macro: '{#PARKNAME}'
+              path: $.name
+            - lld_macro: '{#PID}'
+              path: $.id
+            - lld_macro: '{#TIMEZONE}'
+              path: $.timezone
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - '$.[?(@.name=="Samsung C&T Corporation")].parks.*'
+        - uuid: 67d8e75165c94ab0961af15e1ff9a98e
+          name: SEAWORLD-ENT-PARK-DISCOVERY
+          type: HTTP_AGENT
+          key: seaworld.parks.discovery
+          delay: 24h
+          status: DISABLED
+          host_prototypes:
+            - uuid: 0145a7fc7c8443b6acb74682b26a9a57
+              host: '{#PARKNAME}'
+              name: '{#PARKNAME}'
+              inventory_mode: AUTOMATIC
+              group_links:
+                - group:
+                    name: 'Amusement Parks'
+              templates:
+                - name: 'Wait Time Discovery and Creation'
+              macros:
+                - macro: '{$PID}'
+                  value: '{#PID}'
+              tags:
+                - tag: COUNTRY
+                  value: '{#COUNTRY}'
+                - tag: PARENT
+                  value: 'SEAWORLD PARKS & ENT'
+                - tag: PARK
+                  value: '{#PARKNAME}'
+          url: 'https://queue-times.com/parks.json'
+          lld_macro_paths:
+            - lld_macro: '{#CONTINENT}'
+              path: $.continent
+            - lld_macro: '{#COUNTRY}'
+              path: $.country
+            - lld_macro: '{#LAT}'
+              path: $.latitude
+            - lld_macro: '{#LONG}'
+              path: $.longitude
+            - lld_macro: '{#PARKNAME}'
+              path: $.name
+            - lld_macro: '{#PID}'
+              path: $.id
+            - lld_macro: '{#TIMEZONE}'
+              path: $.timezone
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - '$.[?(@.name=="SeaWorld Parks & Entertainment")].parks.*'
+        - uuid: 6ffabef7f0f04df1a60a429b413c7c5e
+          name: SIX-FLAGS-PARK-DISCOVERY
+          type: HTTP_AGENT
+          key: sixflags.parks.discovery
+          delay: 24h
+          status: DISABLED
+          host_prototypes:
+            - uuid: dc9ece64371c47ffba08a51fdcfea6a8
+              host: '{#PARKNAME}'
+              name: '{#PARKNAME}'
+              group_links:
+                - group:
+                    name: 'Amusement Parks'
+              templates:
+                - name: 'Wait Time Discovery and Creation'
+              macros:
+                - macro: '{$PID}'
+                  value: '{#PID}'
+              tags:
+                - tag: COUNTRY
+                  value: '{#COUNTRY}'
+                - tag: PARENT
+                  value: 'SIX FLAGS ENT'
+                - tag: PARK
+                  value: '{#PARKNAME}'
+          url: 'https://queue-times.com/parks.json'
+          lld_macro_paths:
+            - lld_macro: '{#CONTINENT}'
+              path: $.continent
+            - lld_macro: '{#COUNTRY}'
+              path: $.country
+            - lld_macro: '{#LAT}'
+              path: $.latitude
+            - lld_macro: '{#LONG}'
+              path: $.longitude
+            - lld_macro: '{#PARKNAME}'
+              path: $.name
+            - lld_macro: '{#PID}'
+              path: $.id
+            - lld_macro: '{#TIMEZONE}'
+              path: $.timezone
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - '$.[?(@.name=="Six Flags Entertainment Corporation")].parks.*'
+        - uuid: 3b794ec7c3824862aaedf9d5c41f6046
+          name: UK-MUSEUM-PARK-DISCOVERY
+          type: HTTP_AGENT
+          key: uk.museum.parks.discovery
+          delay: 24h
+          status: DISABLED
+          host_prototypes:
+            - uuid: 2560e504a9a6471b9b63d64b6235cb33
+              host: '{#PARKNAME}'
+              name: '{#PARKNAME}'
+              inventory_mode: AUTOMATIC
+              group_links:
+                - group:
+                    name: 'Amusement Parks'
+              templates:
+                - name: 'Wait Time Discovery and Creation'
+              macros:
+                - macro: '{$PID}'
+                  value: '{#PID}'
+              tags:
+                - tag: COUNTRY
+                  value: '{#COUNTRY}'
+                - tag: PARENT
+                  value: 'UK NATIONAL MUSEUMS'
+                - tag: PARK
+                  value: '{#PARKNAME}'
+          url: 'https://queue-times.com/parks.json'
+          lld_macro_paths:
+            - lld_macro: '{#CONTINENT}'
+              path: $.continent
+            - lld_macro: '{#COUNTRY}'
+              path: $.country
+            - lld_macro: '{#LAT}'
+              path: $.latitude
+            - lld_macro: '{#LONG}'
+              path: $.longitude
+            - lld_macro: '{#PARKNAME}'
+              path: $.name
+            - lld_macro: '{#PID}'
+              path: $.id
+            - lld_macro: '{#TIMEZONE}'
+              path: $.timezone
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - '$.[?(@.name=="UK National Museums")].parks.*'
+        - uuid: a679911ec2f94a619a8a02ea5e470706
+          name: UNIVERSAL-PARK-DISCOVERY
+          type: HTTP_AGENT
+          key: universal.parks.discovery
+          delay: 24h
+          host_prototypes:
+            - uuid: b26012192f104a69aeb97818bb0a2a5e
+              host: '{#PARKNAME}'
+              name: '{#PARKNAME}'
+              inventory_mode: AUTOMATIC
+              group_links:
+                - group:
+                    name: 'Amusement Parks'
+              templates:
+                - name: 'Wait Time Discovery and Creation'
+              macros:
+                - macro: '{$PID}'
+                  value: '{#PID}'
+              tags:
+                - tag: COUNTRY
+                  value: '{#COUNTRY}'
+                - tag: PARENT
+                  value: 'UNIVERSAL PARKS & RESORTS'
+                - tag: PARK
+                  value: '{#PARKNAME}'
+          url: 'https://queue-times.com/parks.json'
+          lld_macro_paths:
+            - lld_macro: '{#COUNTRY}'
+              path: $.country
+            - lld_macro: '{#PARKNAME}'
+              path: $.name
+            - lld_macro: '{#PID}'
+              path: $.id
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - '$.[?(@.name=="Universal Parks & Resorts")].parks.*'
