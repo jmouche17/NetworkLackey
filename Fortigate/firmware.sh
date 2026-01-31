@@ -1,5 +1,6 @@
 #!/bin/bash
 echo $API_URL
+echo "API_URL=$API_URL"
 echo $API_TOKEN
 curl -k \
   -H "Authorization: Bearer $API_TOKEN" \
