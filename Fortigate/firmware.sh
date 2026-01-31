@@ -1,8 +1,10 @@
-#!/bin/bash
-echo $API_URL
+bash << 'EOF'
+set -e
+
 echo "API_URL=$API_URL"
-echo $API_TOKEN
-curl -k \
+[[ -n "$API_TOKEN" ]] && echo "API_TOKEN is set"
+
+curl -sk \
   -H "Authorization: Bearer $API_TOKEN" \
-  -H "Accept: application/json" \
-  "$API_URL/api/v2/monitor/system/status"
+  "${API_URL%/}/api/v2/monitor/system/status"
+EOF
